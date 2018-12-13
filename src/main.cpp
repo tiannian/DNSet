@@ -32,21 +32,21 @@ int main(int argc, char* argv[]) {
             char sender[17] = "";
             uv_ip4_name((const struct sockaddr_in*) addr, sender, 16);
             cout << "read data " << nread << " bytes."<< endl;
-	    // parse dns message
-	    dns::Message m;
+            // parse dns message
+            dns::Message m;
             try {
                 m.decode(buf->base, nread);
             } catch (dns::Exception& e) {
                 cout << "DNS exception occured when parsing incoming data: " << e.what() << endl;
-		return;
-	    }
-	    // message Id
-	    cout << m.getId() << endl;
+                return;
+            }
+            // message Id
+            cout << m.getId() << endl;
             // Query info
-	    for (auto &x: m.mQueries) {
-	        cout << x->getName() << endl;
-	    }
-	}
+            for (auto &x: m.mQueries) {
+                cout << x->getName() << endl;
+            }
+        }
         free(buf->base);
     });
     
