@@ -9,7 +9,7 @@ include_directories(dep)
 
 set(dnslibf dep/dnslib)
 
-add_library(libdns ${dnslibf}/buffer.cpp ${dnslibf}/message.cpp ${dnslibf}/rr.cpp ${dnslibf}/qs.cpp)
+add_library(dns ${dnslibf}/buffer.cpp ${dnslibf}/message.cpp ${dnslibf}/rr.cpp ${dnslibf}/qs.cpp)
 
-add_executable(dnset src/main.cpp)
-target_link_libraries(dnset uv libdns)
+add_executable(dnset src/main.cpp src/forwarder.cpp)
+target_link_libraries(dnset uv dns)

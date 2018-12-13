@@ -525,7 +525,7 @@ class ResourceRecord
         ~ResourceRecord();
 
         void setName(std::string newName) { mName = newName; };
-        uint getName() const;
+        std::string getName() const {return mName;};
 
         void setType(const eRDataType type) { mType = type; };
         eRDataType getType() const;
