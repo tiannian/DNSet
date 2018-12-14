@@ -6,6 +6,7 @@
 namespace dnset {
 
 static void send_cb(uv_udp_send_t* req, int status) {
+    std::cout << "data send success " << status << std::endl;
     free(req);
 }
 
@@ -23,7 +24,7 @@ void Forwarder::forword_request(uv_udp_t* udp,dns::Message &m, ssize_t nread, co
     // send to server
     uv_udp_send_t *udp_send = (uv_udp_send_t *)malloc(sizeof(uv_udp_send_t));
     struct sockaddr_in recv_addr;
-    uv_ip4_addr("192.168.100.1", 53,&recv_addr);
+    uv_ip4_addr("10.0.0.1", 53,&recv_addr);
     uv_buf_t data[] = {uv_buf_init(bufs->base,nread)};
     std::cout << "send data" << std::endl;
     uv_udp_send(udp_send, udp, data, 1, (const struct sockaddr *)&recv_addr, send_cb);

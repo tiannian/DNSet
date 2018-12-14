@@ -5,7 +5,8 @@ project (DNSet)
 
 set(CMAKE_CXX_FLAGS "-Wall -O2")
 
-include_directories(dep)
+include_directories(dep ${CMAKE_SOURCE_DIR}/dep/libuv)
+link_directories(${CMAKE_SOURCE_DIR}/dep/libuv)
 
 set(dnslibf dep/dnslib)
 
