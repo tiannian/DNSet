@@ -3,6 +3,8 @@
 
 #include <set>
 #include <vector>
+#include <iostream>
+
 namespace dnset {
 
 template<typename T>
@@ -10,11 +12,11 @@ class TreeNode {
     public:
         TreeNode() = default;
         TreeNode(const TreeNode &) = default;
-        TreeNode(T &d): data(d) {}
+        TreeNode(T d): data(d) {}
         ~TreeNode() = default;
         
         T data;
-        std::set<TreeNode<T>>children;
+        std::set<TreeNode<T>> children;
         bool operator<(const TreeNode &other) const {
             return data < other.data;
         }
@@ -43,16 +45,17 @@ class Tree {
 
 template<typename T>
 void Tree<T>::addNode(const std::vector<T> &p) {
-    auto &curr = data;
+    TreeNode<T> *curr = &data;
     for (auto &x: p) {
         // find target
-        auto fr = curr.children.find();
-        if (fr = curr.children.end()) {
+	TreeNode<T> finder(x);
+        auto fr = curr->children.find(finder);
+        if (fr == curr->children.end()) {
             TreeNode<T> buffer(x);
-            curr.children.insert(buffer);
-            curr = buffer;
+            auto r = curr->children.insert(buffer);
+            curr = (TreeNode<T>*)&(*r.first);
         } else {
-            curr = *fr;
+            curr = (TreeNode<T>*)&(*fr);
         }
     }
 }
@@ -67,15 +70,17 @@ bool Tree<T>::hasNode(const std::vector<T> &p) {
     return true;
 }
 
+
 template<typename T>
 void Tree<T>::print(TreeNode<T> &d) {
-    std::cout << "current node is " << d.data ;
+    std::cout << "current node is " << d.data << std::endl;
     std::cout << "children node are ";
     for (auto &x: d.children) {
         std::cout << x.data << " ";
     }
     std::cout << std::endl;
-    for (auto &x: d.children) {
+    std::cout << "------------" << std::endl;
+    for (auto x: d.children) {
         print(x);
     }
 }
