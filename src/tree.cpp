@@ -4,13 +4,14 @@
 
 namespace dnset {
 
-void Tree::addNode(const std::vector<T> &p) {
+template<typename T>
+void Tree<T>::addNode(const std::vector<T> &p) {
     auto &curr = data;
     for (auto &x: p) {
         // find target
         auto fr = curr.children.find();
         if (fr = curr.children.end()) {
-            TreeNode buffer(x);
+            TreeNode<T> buffer(x);
             curr.children.insert(buffer);
             curr = buffer;
         } else {
@@ -19,15 +20,18 @@ void Tree::addNode(const std::vector<T> &p) {
     }
 }
 
-void Tree::delNode(const std::vector<T> &p) {
+template<typename T>
+void Tree<T>::delNode(const std::vector<T> &p) {
     
 }
 
-bool Tree::hasNode(const std::vector<T> &p) {
-    
+template<typename T>
+bool Tree<T>::hasNode(const std::vector<T> &p) {
+    return true;
 }
 
-void Tree::print(TreeNode<T> &d) {
+template<typename T>
+void Tree<T>::print(TreeNode<T> &d) {
     std::cout << "current node is " << d.data ;
     std::cout << "children node are ";
     for (auto &x: d.children) {

@@ -1,12 +1,14 @@
 #include "tree.h"
 #include <vector>
+#include <string>
 
 using namespace std;
+using namespace dnset;
 
 int main () {
-    Tree t;
-    vector arg1 = {"hello", "world", "1"}
-    t.add(arg1);
+    Tree<string> t;
+    vector<string> arg1 = {"hello", "world", "1"};
+    t.addNode(arg1);
     t.dump();
     return 0;
 }

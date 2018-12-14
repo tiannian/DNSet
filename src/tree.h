@@ -1,6 +1,8 @@
 #ifndef _TREE_H
 #define _TREE_H
 
+#include <set>
+#include <vector>
 namespace dnset {
 
 template<typename T>
@@ -13,17 +15,17 @@ class TreeNode {
         
         T data;
         std::set<TreeNode<T>>children;
-        bool operator<(const Node &other) const {
+        bool operator<(const TreeNode &other) const {
             return data < other.data;
         }
-}
+};
 
 template<typename T>
 class Tree {
     public:
         Tree() = default;
         Tree(const Tree &) = default;
-        ~Tree() = delete;
+        ~Tree() = default;
     
     public:
         void addNode(const std::vector<T> &p);
@@ -37,8 +39,8 @@ class Tree {
 
     private:
         TreeNode<T> data;
-}
-    
+};
+
 }
 
 #endif
