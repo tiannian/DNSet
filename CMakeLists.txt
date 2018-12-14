@@ -14,3 +14,6 @@ add_library(dns ${dnslibf}/buffer.cpp ${dnslibf}/message.cpp ${dnslibf}/rr.cpp $
 
 add_executable(dnset src/main.cpp src/forwarder.cpp)
 target_link_libraries(dnset uv dns)
+
+add_executable(testtree src/tree.cpp src/testtree.cpp)
+
