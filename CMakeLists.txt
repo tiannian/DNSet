@@ -12,8 +12,10 @@ set(dnslibf dep/dnslib)
 
 add_library(dns ${dnslibf}/buffer.cpp ${dnslibf}/message.cpp ${dnslibf}/rr.cpp ${dnslibf}/qs.cpp)
 
-add_executable(dnset src/main.cpp src/forwarder.cpp)
+add_executable(dnset src/main.cpp src/forwarder.cpp src/config.cpp)
 target_link_libraries(dnset uv dns)
 
 add_executable(testmatcher src/matcher.cpp src/testmatcher.cpp)
+add_executable(testconfig src/config.cpp src/testconfig.cpp)
+target_link_libraries(testconfig uv dns)
 

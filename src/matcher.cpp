@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "utils.h"
+
 namespace dnset {
 
 void Matcher::add(std::string p) {
@@ -18,15 +20,6 @@ void Matcher::del(std::string p) {
 bool Matcher::has(std::string p) {
     return patten.count(p) == 1;
 }
-
-std::string& trim(std::string &s) {  
-    if (s.empty()) {  
-        return s;
-    }
-    s.erase(0,s.find_first_not_of(" "));
-    s.erase(s.find_last_not_of(" ") + 1);
-    return s;
-}  
 
 bool Matcher::match(std::string p) {
     auto domain = trim(p);
