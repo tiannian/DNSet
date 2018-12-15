@@ -25,11 +25,8 @@ void Forwarder::forword_request(uv_udp_t* udp,dns::Message &m, ssize_t nread, co
     }
     // send to server
     uv_udp_send_t *udp_send = (uv_udp_send_t *)malloc(sizeof(uv_udp_send_t));
-    struct sockaddr_in recv_addr;
-    uv_ip4_addr("10.0.0.1", 53,&recv_addr);
     uv_buf_t data[] = {uv_buf_init(bufs->base,nread)};
-    std::cout << "send data" << std::endl;
-    uv_udp_send(udp_send, udp, data, 1, (const struct sockaddr *)&recv_addr, Forwarder::send_cb);
+    uv_udp_send(udp_send, udp, data, 1, (const struct sockaddr *)&config.upstream[0], Forwarder::send_cb);
 }
 
 void Forwarder::forword_response(uv_udp_t* udp,dns::Message &m, ssize_t nread, const uv_buf_t *bufs) {
@@ -43,7 +40,7 @@ void Forwarder::forword_response(uv_udp_t* udp,dns::Message &m, ssize_t nread, c
     uv_udp_send_t *udp_send = (uv_udp_send_t *)malloc(sizeof(uv_udp_send_t));
     struct sockaddr *recv_addr = routeTable.at(mid);
     uv_buf_t data[] = {uv_buf_init(bufs->base,nread)};
-    uv_udp_send(udp_send, udp, data, 1, (const struct sockaddr *)recv_addr, send_cb);
+    uv_udp_send(udp_send, udp, data, 1, (const struct sockaddr *)recv_addr, Forwarder::send_cb);
     free(recv_addr);
 }
 
@@ -83,7 +80,6 @@ void Forwarder::recv_cb (uv_udp_t* req, ssize_t nread, const uv_buf_t* buf, cons
 
 
 void Forwarder::init() {
-    config.dump();
     char host[22] = {0};
     uv_udp_init(loop, &recv_socket);
     uv_handle_set_data((uv_handle_t*)&recv_socket,this);

@@ -29,7 +29,6 @@ Config::Config(std::string path) {
             if (ns.size() == 1) {
                 uv_ip4_addr(ns[0].c_str(),53,&bind_addr);
             } else {
-                std::cout << ns[0] << ":" << ns[1] << std::endl;
                 uv_ip4_addr(ns[0].c_str(),stoi(ns[1]),&bind_addr);
             }
         } else if (r[0] == "ttl") {
@@ -40,7 +39,6 @@ Config::Config(std::string path) {
             if (ns.size() == 1) {
                 uv_ip4_addr(ns[0].c_str(),53,&addr);
             } else {
-                std::cout << ns[0] << ":" << ns[1] << std::endl;
                 uv_ip4_addr(ns[0].c_str(),stoi(ns[1]),&addr);
             }
             upstream.push_back(addr);
