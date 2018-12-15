@@ -24,6 +24,9 @@ void Forwarder::forword_request(uv_udp_t* udp,dns::Message &m, ssize_t nread, co
         routeTable.insert(std::make_pair(mid,paddr));
     }
     // send to server
+    char host[22] = {0};
+    uv_ip4_name(&config.upstream[0],host,21);
+    std::cout << "send to " << host << ":" << config.bind_addr.sin_port << std::endl;
     uv_udp_send_t *udp_send = (uv_udp_send_t *)malloc(sizeof(uv_udp_send_t));
     uv_buf_t data[] = {uv_buf_init(bufs->base,nread)};
     uv_udp_send(udp_send, udp, data, 1, (const struct sockaddr *)&config.upstream[0], Forwarder::send_cb);
@@ -38,7 +41,12 @@ void Forwarder::forword_response(uv_udp_t* udp,dns::Message &m, ssize_t nread, c
         // match domain
     }
     uv_udp_send_t *udp_send = (uv_udp_send_t *)malloc(sizeof(uv_udp_send_t));
-    struct sockaddr *recv_addr = routeTable.at(mid);
+    auto fr = routeTable.find(mid);
+    if (fr == routeTable.end()) {
+        return;
+    }
+    struct sockaddr *recv_addr = (*fr).second;
+    routeTable.erase(fr);
     uv_buf_t data[] = {uv_buf_init(bufs->base,nread)};
     uv_udp_send(udp_send, udp, data, 1, (const struct sockaddr *)recv_addr, Forwarder::send_cb);
     free(recv_addr);
